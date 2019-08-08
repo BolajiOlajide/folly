@@ -8,10 +8,8 @@ black = "==19.3b0"
 isort = "*"
 
 [packages]
+slackclient = "==1.2.1"
 flask = "*"
-gunicorm = "*"
-python-dotenv = "*"
-slackclient = "*"
 gunicorn = "*"
 
 [requires]
