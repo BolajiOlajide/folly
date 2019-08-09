@@ -11,6 +11,7 @@ isort = "*"
 slackclient = "==1.2.1"
 flask = "*"
 gunicorn = "*"
+flask-api = "*"
 
 [requires]
 python_version = "3.7"
