@@ -80,6 +80,13 @@ def bot():
         return "", 400
 
 
+@app.route("/")
+def home():
+    return {
+        "message": "Everything will be fine!"
+    }
+
+
 if __name__ == "__main__":
     app.logger.info("Starting Folly!")
     app.run(debug=is_debug)
