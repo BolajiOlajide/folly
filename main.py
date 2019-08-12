@@ -7,8 +7,9 @@ from flask import Flask, jsonify, request
 from flask_api import FlaskAPI
 
 from client import bot_client
-from utils import get_reactions, get_reaction_details, send_ephemeral_message, generate_user_response, get_message_permalink
-from constants import REACTION_REGEX, LOGGING_CONFIG
+from constants import LOGGING_CONFIG, REACTION_REGEX
+from utils import (generate_user_response, get_message_permalink,
+                   get_reaction_details, get_reactions, send_ephemeral_message)
 
 load_dotenv(find_dotenv())
 

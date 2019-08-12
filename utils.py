@@ -1,15 +1,11 @@
 import random
 import string
 
-from client import oauth_access_client, bot_client
+from client import bot_client, oauth_access_client
 
 
 def get_reactions(channel, message_ts):
-    payload = dict(
-        channel=channel,
-        full=True,
-        timestamp=message_ts
-    )
+    payload = dict(channel=channel, full=True, timestamp=message_ts)
     reactions_response = oauth_access_client.api_call("reactions.get", **payload)
     reactions = reactions_response.get("message").get("reactions")
     return reactions
@@ -18,7 +14,7 @@ def get_reactions(channel, message_ts):
 def get_reaction_details(reaction_list, text):
     reaction_text = text.strip(":")
     for reaction in reaction_list:
-        if (reaction.get("name") == reaction_text):
+        if reaction.get("name") == reaction_text:
             return reaction
     return None
 
@@ -26,7 +22,7 @@ def get_reaction_details(reaction_list, text):
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
     letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(stringLength))
+    return "".join(random.choice(letters) for i in range(stringLength))
 
 
 def send_ephemeral_message(message, thread_ts, channel, user):
@@ -36,24 +32,19 @@ def send_ephemeral_message(message, thread_ts, channel, user):
         user=user,
         text=message,
         as_user=True,
-        thread_ts=thread_ts
+        thread_ts=thread_ts,
     )
 
 
 def send_message(message, user):
     return bot_client.api_call(
-        "chat.postMessage",
-        channel=user,
-        text=message,
-        as_user=True,
+        "chat.postMessage", channel=user, text=message, as_user=True
     )
 
 
 def get_message_permalink(message_ts, channel):
     return oauth_access_client.api_call(
-        "chat.getPermalink",
-        channel=channel,
-        message_ts=message_ts
+        "chat.getPermalink", channel=channel, message_ts=message_ts
     )
 
 
