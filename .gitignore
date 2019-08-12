@@ -106,11 +106,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-.vscode
-
 # ngrok
 ngrok
 
 # postgres data
 postgres/data
 sample.py
+messages.json
