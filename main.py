@@ -7,7 +7,7 @@ from flask import Flask, jsonify, request
 from flask_api import FlaskAPI
 
 from client import bot_client
-from utils import get_reactions, get_reaction_details, send_message
+from utils import get_reactions, get_reaction_details, send_ephemeral_message, generate_user_response
 from constants import REACTION_REGEX, LOGGING_CONFIG
 
 load_dotenv(find_dotenv())
@@ -24,7 +24,7 @@ def bot():
     try:
         request_type = request.data.get("type")
 
-		if request_type == "url_verification":
+        if request_type == "url_verification":
             challenge = request.data.get("challenge")
             return challenge
 
@@ -45,34 +45,37 @@ def bot():
 
         if not thread_ts:
             msg = ">Folly can't be used outside a thread."
-            send_message(msg, thread_ts, channel, current_user)
+            send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
         if not len(reaction_text):
             msg = ">No reaction supplied!"
-            send_message(msg, thread_ts, channel, current_user)
+            send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
         reaction = reaction_text[1].strip()
         is_valid_reaction = re.match(REACTION_REGEX, reaction)
         if not is_valid_reaction:
             msg = "Not a valid reaction."
-            send_message(msg, thread_ts, channel, current_user)
+            send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
         reaction_list = get_reactions(channel, thread_ts)
 
         reaction_details = get_reaction_details(reaction_list, reaction)
 
-        generate_user_response
-
         if not reaction_details:
-            print("Reaction doesn't exist on message!")
+            msg = "Reaction doesn't exist on post!"
+            send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
+
+        response = generate_user_response(reaction_details, channel, thread_ts)
+        print(response)
 
         return "", 200
     except Exception as e:
         app.logger.error(e.args[0])
+        return "", 400
 
 
 if __name__ == "__main__":

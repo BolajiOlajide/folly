@@ -29,7 +29,7 @@ def randomString(stringLength=10):
     return ''.join(random.choice(letters) for i in range(stringLength))
 
 
-def send_message(message, thread_ts, channel, user):
+def send_ephemeral_message(message, thread_ts, channel, user):
     return bot_client.api_call(
         "chat.postEphemeral",
         channel=channel,
@@ -40,16 +40,18 @@ def send_message(message, thread_ts, channel, user):
     )
 
 
-def upload_snippet(message):
+def upload_snippet(message, channel, thread_ts):
     return bot_client.api_call(
         "files.upload",
         content=message,
         filename=randomString(),
-        thread_ts=thread_ts
+        thread_ts=thread_ts,
+        channel=channel,
+        filetype="text"
     )
 
 
-def generate_user_response(reaction_details):
+def generate_user_response(reaction_details, channel, thread_ts):
     reactors = reaction_details.get("users")
     reaction = reaction_details.get("name")
     count = reaction_details.get("count")
@@ -57,11 +59,12 @@ def generate_user_response(reaction_details):
     msg = f"""Hello,
 
 Here is the list of people who reacted to the :{reaction}: you mentioned me on.
-There are
+There are {count} reactors with the reaction specified.
 
 """
 
     for reactor in reactors:
-        users_list += f"> <@{reactor}> \n"
+        msg += f"<@{reactor}>, "
 
-    return send_message(msg, recipient)
+    formatted_msg = msg.strip().strip(",")
+    return upload_snippet(formatted_msg, channel, thread_ts)
