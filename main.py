@@ -7,7 +7,7 @@ from flask import Flask, jsonify, request
 from flask_api import FlaskAPI
 
 from client import bot_client
-from utils import get_reactions, get_reaction_details, send_ephemeral_message, generate_user_response
+from utils import get_reactions, get_reaction_details, send_ephemeral_message, generate_user_response, get_message_permalink
 from constants import REACTION_REGEX, LOGGING_CONFIG
 
 load_dotenv(find_dotenv())
@@ -69,8 +69,9 @@ def bot():
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
-        response = generate_user_response(reaction_details, channel, thread_ts)
-        print(response)
+        permalink_response = get_message_permalink(thread_ts, channel)
+        permalink = permalink_response.get("permalink")
+        response = generate_user_response(reaction_details, current_user, permalink)
 
         return "", 200
     except Exception as e:

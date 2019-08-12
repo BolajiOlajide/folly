@@ -40,31 +40,37 @@ def send_ephemeral_message(message, thread_ts, channel, user):
     )
 
 
-def upload_snippet(message, channel, thread_ts):
+def send_message(message, user):
     return bot_client.api_call(
-        "files.upload",
-        content=message,
-        filename=randomString(),
-        thread_ts=thread_ts,
-        channel=channel,
-        filetype="text"
+        "chat.postMessage",
+        channel=user,
+        text=message,
+        as_user=True,
     )
 
 
-def generate_user_response(reaction_details, channel, thread_ts):
+def get_message_permalink(message_ts, channel):
+    return oauth_access_client.api_call(
+        "chat.getPermalink",
+        channel=channel,
+        message_ts=message_ts
+    )
+
+
+def generate_user_response(reaction_details, current_user, permalink):
     reactors = reaction_details.get("users")
     reaction = reaction_details.get("name")
     count = reaction_details.get("count")
 
-    msg = f"""Hello,
+    msg = f""">>>Hello,
 
-Here is the list of people who reacted to the :{reaction}: you mentioned me on.
-There are {count} reactors with the reaction specified.
+Here is the list of people who reacted with :{reaction}: on {permalink}.
+There are {count} reactors with the :{reaction}: reaction:
 
 """
 
     for reactor in reactors:
-        msg += f"<@{reactor}>, "
+        msg += f"<@{reactor}> "
 
-    formatted_msg = msg.strip().strip(",")
-    return upload_snippet(formatted_msg, channel, thread_ts)
+    formatted_msg = msg.strip()
+    return send_message(formatted_msg, current_user)
