@@ -39,7 +39,7 @@ def bot():
         edited = event.get("edited")
         thread_ts = event.get("thread_ts")
         channel = event.get("channel")
-        reaction_text = event.get("text").strip().split(">")
+        reaction_text = event.get("text").strip()
 
         if edited:
             return "", 200
@@ -49,15 +49,18 @@ def bot():
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
-        if not len(reaction_text):
-            msg = ">No reaction supplied!"
-            send_ephemeral_message(msg, thread_ts, channel, current_user)
-            return "", 200
+        reaction_gen = re.finditer(REACTION_REGEX, reaction_text)
 
-        reaction = reaction_text[1].strip()
-        is_valid_reaction = re.match(REACTION_REGEX, reaction)
-        if not is_valid_reaction:
-            msg = "Not a valid reaction."
+        try:
+            reaction = next(reaction_gen)
+        except StopIteration:
+            reaction = None
+
+        if not reaction:
+            msg = """Not a valid reaction.
+Kindly supply a valid reaction and I'll do my job. 😄
+Example: ```@folly 😃```
+"""
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
@@ -66,7 +69,7 @@ def bot():
         reaction_details = get_reaction_details(reaction_list, reaction)
 
         if not reaction_details:
-            msg = "Reaction doesn't exist on post!"
+            msg = "Reaction doesn't exist on post! Kindly supply a reaction that as been used on the parent message."
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
@@ -77,14 +80,13 @@ def bot():
         return "", 200
     except Exception as e:
         app.logger.error(e.args[0])
+        app.logger.info(e)
         return "", 400
 
 
 @app.route("/")
 def home():
-    return {
-        "message": "Everything will be fine!"
-    }
+    return {"message": "Everything will be fine!"}
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
-REACTION_REGEX = r"^:\S*:$"
+REACTION_REGEX = r":\S*:"
+USER_HANDLE_REGEX = r"<\S*>"
 
 LOGGING_CONFIG = {
     "version": 1,
