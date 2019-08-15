@@ -57,7 +57,7 @@ def bot():
             reaction = None
 
         if not reaction:
-            msg = """Not a valid reaction.
+            msg = """>>>Not a valid reaction.
 Kindly supply a valid reaction and I'll do my job. 😄
 Example: ```@folly 😃```
 """
