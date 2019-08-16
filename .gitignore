@@ -114,3 +114,4 @@ postgres/data
 sample.py
 messages.json
 .vscode
+.DS_Store

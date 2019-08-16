@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>folly</title>
+        <link href="https://fonts.googleapis.com/css?family=Amaranth&display=swap" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    </head>
+    <body>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

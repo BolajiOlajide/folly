@@ -1,0 +1,35 @@
+--root {
+    --primary-color: #E89533;
+}
+
+* {
+    font-family: 'Amaranth', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.folly__navigation {
+    height: 4rem;
+    width: 100vw;
+}
+
+.folly__content {
+    background: #f8f8f8;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    background: var(--primary-color);
+}

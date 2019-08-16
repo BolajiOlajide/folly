@@ -3,7 +3,7 @@ import re
 from logging.config import dictConfig
 
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_api import FlaskAPI
 
 from client import bot_client
@@ -79,14 +79,13 @@ Example: ```@folly 😃```
 
         return "", 200
     except Exception as e:
-        app.logger.error(e.args[0])
-        app.logger.info(e)
+        app.logger.exception(e)
         return "", 400
 
 
 @app.route("/")
 def home():
-    return {"message": "Everything will be fine!"}
+    return render_template('index.html')
 
 
 if __name__ == "__main__":

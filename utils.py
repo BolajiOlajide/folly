@@ -7,6 +7,7 @@ from client import bot_client, oauth_access_client
 def get_reactions(channel, message_ts):
     payload = dict(channel=channel, full=True, timestamp=message_ts)
     reactions_response = oauth_access_client.api_call("reactions.get", **payload)
+    print(reactions_response)
     reactions = reactions_response.get("message").get("reactions")
     return reactions
 
