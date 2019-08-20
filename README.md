@@ -2,6 +2,11 @@
 
 Slack bot to fetch reactions for a post on slack. This is built because I'm tired.
 
+## SUPPORT
+
+Support me via Patreon
+<a href="https://www.patreon.com/bePatron?u=14962348" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+
 ## TECHNOLOGIES
 
 - Flask
