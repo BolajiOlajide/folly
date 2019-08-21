@@ -14,6 +14,7 @@ gunicorn = "*"
 flask-api = "*"
 python-dotenv = "*"
 flask-pymongo = "*"
+pymodm = "*"
 
 [requires]
 python_version = "3.7"

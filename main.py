@@ -16,7 +16,7 @@ load_dotenv(find_dotenv())
 
 dictConfig(LOGGING_CONFIG)
 app = FlaskAPI(__name__, instance_relative_config=False)
-app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+app.config["MONGO_URI"] = os.getenv("MONGODB_URI")
 db = PyMongo(app)
 
 environment = os.getenv("ENV", "development")
