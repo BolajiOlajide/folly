@@ -1,5 +1,7 @@
---root {
+:root {
     --primary-color: #E89533;
+    --light-color: #f8f8f8;
+    --dark-color: #000;
 }
 
 * {
@@ -16,13 +18,26 @@ body {
     flex-direction: column;
 }
 
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .folly__navigation {
     height: 4rem;
     width: 100vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.folly_logo {
+    margin-left: 0.5rem;
+    height: 3rem;
 }
 
 .folly__content {
-    background: #f8f8f8;
+    background: var(--light-color);;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -30,6 +45,43 @@ body {
     align-items: center;
 }
 
-.btn {
+.folly_text_logo {
+    argin: 4rem 0;
+}
+
+.folly__description {
+    margin-bottom: 4rem;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.folly_link {
     background: var(--primary-color);
+    padding: 1rem 2.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--light-color);
+    letter-spacing: 1px;
+    margin-bottom: 5rem;
+}
+
+.folly__footer {
+    display: flex;
+    justify-content: center;
+    background: var(--light-color);
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.folly__footer span {
+    margin: 2px 4px;
+}
+
+.folly__footer a {
+    color: var(--dark-color);
+    text-decoration: underline;
+}
+
+#current_date {
+    margin-right: 0;
 }

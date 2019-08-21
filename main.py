@@ -3,8 +3,9 @@ import re
 from logging.config import dictConfig
 
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_api import FlaskAPI
+from flask_pymongo import PyMongo
 
 from client import bot_client
 from constants import LOGGING_CONFIG, REACTION_REGEX
@@ -15,6 +16,8 @@ load_dotenv(find_dotenv())
 
 dictConfig(LOGGING_CONFIG)
 app = FlaskAPI(__name__, instance_relative_config=False)
+app.config["MONGO_URI"] = os.getenv("MONGO_URI")
+db = PyMongo(app)
 
 environment = os.getenv("ENV", "development")
 is_debug = environment == "development"
@@ -83,9 +86,14 @@ Example: ```@folly 😃```
         return "", 400
 
 
+@app.route("/status")
+def status():
+    return render_template("index.html")
+
+
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
