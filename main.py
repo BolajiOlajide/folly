@@ -8,7 +8,7 @@ from flask_api import FlaskAPI
 from flask_pymongo import PyMongo
 
 from client import bot_client
-from constants import LOGGING_CONFIG, REACTION_REGEX
+from constants import LOGGING_CONFIG, REACTION_REGEX, HELP_REGEX
 from utils import (generate_user_response, get_message_permalink,
                    get_reaction_details, get_reactions, send_ephemeral_message)
 
@@ -59,27 +59,24 @@ def bot():
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
-        reaction_gen = re.finditer(REACTION_REGEX, reaction_text)
+        if re.search(HELP_REGEX, reaction_text):
+            send_ephemeral_message(help_message, thread_ts, channel, current_user)
+            return "", 200
 
-        try:
-            reaction = next(reaction_gen)
-        except StopIteration:
-            reaction = None
+        reactions = re.findall(REACTION_REGEX, reaction_text)
 
-        if not reaction:
-            msg = """>>>Not a valid reaction.
-Kindly supply a valid reaction and I'll do my job. 😄
-Example: ```@folly 😃```
-"""
+        if not reactions:
+            msg = "No reaction in text.\n"
+            msg += help_message
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
         reaction_list = get_reactions(channel, thread_ts)
 
-        reaction_details = get_reaction_details(reaction_list, reaction)
+        reaction_details = get_reaction_details(reaction_list, reactions[0])
 
         if not reaction_details:
-            msg = "Reaction doesn't exist on post! Kindly supply a reaction that as been used on the parent message."
+            msg = "Reaction doesn't exist on post! Kindly supply a reaction that is used on the initial message."
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
