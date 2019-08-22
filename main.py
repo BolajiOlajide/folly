@@ -17,11 +17,17 @@ load_dotenv(find_dotenv())
 dictConfig(LOGGING_CONFIG)
 app = FlaskAPI(__name__, instance_relative_config=False)
 app.config["MONGO_URI"] = os.getenv("MONGODB_URI")
-db = PyMongo(app)
+mongo = PyMongo(app)
 
 environment = os.getenv("ENV", "development")
 is_debug = environment == "development"
 
+
+help_message = """To use folly, simply mention @folly and the reaction you'd love to grab.
+
+*Example:*
+> @folly 🍭
+"""
 
 @app.route("/bot", methods=["POST"])
 def bot():
@@ -48,7 +54,8 @@ def bot():
             return "", 200
 
         if not thread_ts:
-            msg = ">Folly can't be used outside a thread."
+            msg = "Folly can't be used outside a thread. \n"
+            msg += help_message
             send_ephemeral_message(msg, thread_ts, channel, current_user)
             return "", 200
 
@@ -88,7 +95,7 @@ Example: ```@folly 😃```
 
 @app.route("/status")
 def status():
-    return render_template("index.html")
+    return render_template("success.html")
 
 
 @app.route("/")
