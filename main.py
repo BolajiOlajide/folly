@@ -61,8 +61,10 @@ def bot():
 
         team_id = request.data.get("team_id")
         team_query = {"team_id": team_id}
-        team_collection = mongo.db.teams.find(existing_team_query)
+        team_details = mongo.db.teams.find_one(team_query)
 
+        bot_token = team_details.get('bot_token')
+        user_token = team_details.get('user_token')
         bot_client, user_client = create_client(bot_token, user_token)
 
         if not thread_ts:
