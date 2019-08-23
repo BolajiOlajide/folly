@@ -46,7 +46,7 @@ a {
 }
 
 .folly_text_logo {
-    argin: 4rem 0;
+    margin: 2rem 0;
 }
 
 .folly__description {
@@ -84,4 +84,12 @@ a {
 
 #current_date {
     margin-right: 0;
+}
+
+.folly__success_img {
+    width: 50%
+}
+
+.folly_success_text {
+    font-size: 2rem;
 }

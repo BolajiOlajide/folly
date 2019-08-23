@@ -2,13 +2,15 @@
 
 {% block content %}
 <nav class="folly__navigation">
-    <img class="folly_logo" src="{{ url_for('static', filename='folly_main_logo.png') }}" />
+    <a href="/">
+        <img class="folly_logo" src="{{ url_for('static', filename='folly_main_logo.png') }}" />
+    </a>
 </nav>
 
 <section class="folly__content">
     <img class="folly_text_logo" src="{{ url_for('static', filename='folly_text_logo.png') }}" />
     <span class="folly__description">Grab Reactors to a certain reaction in less <br />than a minute</span>
-    <a href="https://slack.com/oauth/authorize?scope=commands,bot&client_id=2853699384.367788642274" class="folly_link">
+    <a href="https://slack.com/oauth/authorize?client_id=80830268038.729230020614&scope=reactions:read,channels:history,groups:history,bot&redirect_uri=http://localhost:5000/status" class="folly_link">
         Add to Slack
     </a>
 </section>

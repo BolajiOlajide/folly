@@ -1,12 +1,7 @@
-import os
-
-from dotenv import find_dotenv, load_dotenv
 from slackclient import SlackClient
 
-load_dotenv(find_dotenv())
 
-bot_token = os.getenv("BOT_TOKEN")
-access_token = os.getenv("ACCESS_TOKEN")
-
-bot_client = SlackClient(bot_token)
-oauth_access_client = SlackClient(access_token)
+def create_client(bot_token, user_token):
+    bot_client = SlackClient(bot_token)
+    user_client = SlackClient(user_token)
+    return bot_client, user_client

@@ -8,8 +8,8 @@
 </nav>
 
 <section class="folly__content">
-    <p class="folly_success_text">Folly successfully added to {{team_name}} 🎉🎉</p>
-
-    <img class="folly__success_img" src="{{ url_for('static', filename='success.gif') }}" />
+    <p class="folly_success_text">Folly encountered an error. 😞😞 <br />Please try again</p>
+    <p>{{error_message}}</p>
+    <img class="folly__success_img" src="{{ url_for('static', filename='error.gif') }}" />
 </section>
 {% endblock %}
