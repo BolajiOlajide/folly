@@ -7,6 +7,8 @@ from flask import Flask, jsonify, render_template, request
 from flask_api import FlaskAPI
 from flask_pymongo import PyMongo
 from slackclient import SlackClient
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from client import create_client
 from constants import HELP_REGEX, LOGGING_CONFIG, REACTION_REGEX
@@ -14,15 +16,20 @@ from decorators import verify_request, verify_request_depr
 from utils import (generate_user_response, get_message_permalink,
                    get_reaction_details, get_reactions, send_ephemeral_message)
 
+
 load_dotenv(find_dotenv())
+
+environment = os.getenv("ENV", "development")
+is_debug = environment == "development"
+SENTRY_DSN = os.getenv("SENTRY_DSN")
+
+if (environment == "production"):
+    sentry_sdk.init(dsn=SENTRY_DSN, integrations=[FlaskIntegration()])
 
 dictConfig(LOGGING_CONFIG)
 app = FlaskAPI(__name__, instance_relative_config=False)
 app.config["MONGO_URI"] = os.getenv("MONGODB_URI")
 mongo = PyMongo(app)
-
-environment = os.getenv("ENV", "development")
-is_debug = environment == "development"
 
 SLACK_CLIENT_ID = os.getenv("SLACK_CLIENT_ID")
 SLACK_CLIENT_SECRET = os.getenv("SLACK_CLIENT_SECRET")
