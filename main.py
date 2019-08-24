@@ -122,6 +122,7 @@ def status():
         ok = auth_response.get("ok")
 
         if not ok:
+            print('\n\n', auth_response, '\n\n')
             error_message = "Error connecting to Slack!"
             return render_template("error.html", error_message=error_message)
 

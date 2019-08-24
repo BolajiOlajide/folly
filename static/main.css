@@ -19,7 +19,6 @@
     font-family: 'Graphik', sans-serif;
     box-sizing: border-box;
     color: var(--secondary-color);
-    transition: all 1s ease-in;
 }
 
 body {
