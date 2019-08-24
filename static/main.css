@@ -138,15 +138,22 @@ a {
 }
 
 .folly__success_img {
-    width: 50%
+    width: 500px;
 }
 
-.folly_success_text {
+.folly_success_text, .folly_error_text {
     font-size: 2rem;
 }
 
 .slack_logo {
     margin-right: 10px;
+}
+
+.folly_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 @media (min-width: 1025px) {

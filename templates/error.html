@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<nav class="folly__navigation">
-    <a href="/">
-        <img class="folly_logo" src="{{ url_for('static', filename='folly_main_logo.png') }}" />
-    </a>
-</nav>
-
 <section class="folly__content">
-    <p class="folly_success_text">Folly encountered an error. 😞😞 <br />Please try again</p>
-    <p>{{error_message}}</p>
+    <section class="folly_body">
+        <a href="/" class="folly_logo_container">
+            <img class="folly_text_logo" src="{{ url_for('static', filename='folly.svg') }}" />
+            <span class="folly_text">Folly</span>
+        </a>
+        <p class="folly_error_text">Folly encountered an error. 😞😞 <br />Please try again</p>
+        <p>{{error_message}}</p>
+        <a href="/" class="folly_link">Go Home!</a>
+    </section>
+
     <img class="folly__success_img" src="{{ url_for('static', filename='error.gif') }}" />
 </section>
 {% endblock %}
