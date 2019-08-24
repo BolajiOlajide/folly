@@ -19,6 +19,7 @@
     font-family: 'Graphik', sans-serif;
     box-sizing: border-box;
     color: var(--secondary-color);
+    transition: all 1s ease-in;
 }
 
 body {
@@ -55,18 +56,18 @@ a {
 
 .folly__content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .folly_main_description {
-    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    margin-right: 20rem;
-    height: 100%;
+    align-items: center;
 }
 
 .folly_logo_container {
@@ -77,36 +78,39 @@ a {
 
 .folly_text_logo {
     margin: 2rem 0;
-    width: 40px;
+    width: 80px;
     border-radius: 20%;
 }
 
 .folly_text {
     margin-left: 20px;
-    font-size: 2.5rem;
+    font-size: 5rem;
     font-family: 'Amaranth';
     color: var(--primary-color);
 }
 
 .folly__header {
-    font-size: 2rem;
+    font-size: 3rem;
+    text-align: center;
 }
 
 .folly__description {
     color: rgba(59,80,108,0.70);
-    line-height: 19px;
+    margin-bottom: 3rem;
+    text-align: justify;
+    font-size: 1.5rem;
 }
 
 .folly_link {
     background: var(--secondary-color);
-    padding: 1rem 2.5rem;
+    padding: 1rem 2rem;
     border-radius: 7px;
     text-decoration: none;
     color: var(--light-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+    font-size: 30px;
     width: 300px;
 }
 
@@ -117,7 +121,7 @@ a {
     align-items: center;
     margin-bottom: 10px;
     bottom: 0;
-    font-size: 0.8rem;
+    font-size: 1.5rem;
 }
 
 .folly__footer span {
@@ -143,4 +147,33 @@ a {
 
 .slack_logo {
     margin-right: 10px;
+}
+
+@media (min-width: 1025px) {
+    .folly__content {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .folly__footer {
+        font-size: 0.9rem;
+    }
+
+    .folly_main_description {
+        align-items: flex-start;
+    }
+
+    .folly__header {
+        text-align: left;
+        font-size: 2rem;
+    }
+
+    .folly__description {
+        font-size: 1rem;
+    }
+
+    .folly_link {
+        font-size: 17px;
+        width: 200px;
+    }
 }
