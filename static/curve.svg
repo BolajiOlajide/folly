@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="729px" height="915px" viewBox="0 0 729 915" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>clipped bg</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0.609700778,0 C-3.86143826,38.9805854 16.2586874,82.4343528 60.9700778,130.361302 C128.037163,202.251726 147.199188,203.210265 128.037163,263.598221 C108.875139,323.986177 -64.5411823,493.647578 43.7242558,604.8381 C151.989694,716.028623 275.659091,878.750086 525.649522,911.130966 C575.134207,917.540641 643.236432,915.342453 729.956198,904.5364 L728.956307,0 L0.609700778,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-711.000000, 0.000000)">
+            <g id="clipped-bg" transform="translate(711.000000, 0.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill-opacity="0.1" fill="#E89533" xlink:href="#path-1"></use>
+                <rect mask="url(#mask-2)" x="-440" y="-12" width="731" height="917"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

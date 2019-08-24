@@ -1,12 +1,24 @@
+@font-face {
+    font-family: 'Amaranth';
+    src: url('/static/Amaranth-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('/static/Graphik-Regular.otf');
+}
+
 :root {
     --primary-color: #E89533;
     --light-color: #f8f8f8;
     --dark-color: #000;
+    --secondary-color: #334660;
 }
 
 * {
-    font-family: 'Amaranth', sans-serif;
+    font-family: 'Graphik', sans-serif;
     box-sizing: border-box;
+    color: var(--secondary-color);
 }
 
 body {
@@ -16,6 +28,11 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat !important;
+    background-position-x: right !important;
+    background-position-y: top !important;
 }
 
 a {
@@ -37,40 +54,70 @@ a {
 }
 
 .folly__content {
-    background: var(--light-color);;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.folly_main_description {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-right: 20rem;
+    height: 100%;
+}
+
+.folly_logo_container {
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .folly_text_logo {
     margin: 2rem 0;
+    width: 40px;
+    border-radius: 20%;
+}
+
+.folly_text {
+    margin-left: 20px;
+    font-size: 2.5rem;
+    font-family: 'Amaranth';
+    color: var(--primary-color);
+}
+
+.folly__header {
+    font-size: 2rem;
 }
 
 .folly__description {
-    margin-bottom: 4rem;
-    font-size: 3rem;
-    text-align: center;
+    color: rgba(59,80,108,0.70);
+    line-height: 19px;
 }
 
 .folly_link {
-    background: var(--primary-color);
+    background: var(--secondary-color);
     padding: 1rem 2.5rem;
-    border-radius: 0.5rem;
+    border-radius: 7px;
     text-decoration: none;
     color: var(--light-color);
-    letter-spacing: 1px;
-    margin-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    width: 300px;
 }
 
 .folly__footer {
+    position: fixed;
     display: flex;
     justify-content: center;
-    background: var(--light-color);
     align-items: center;
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+    bottom: 0;
+    font-size: 0.8rem;
 }
 
 .folly__footer span {
@@ -92,4 +139,8 @@ a {
 
 .folly_success_text {
     font-size: 2rem;
+}
+
+.slack_logo {
+    margin-right: 10px;
 }

@@ -1,13 +1,12 @@
 <html>
     <head>
         <title>folly</title>
-        <link href="https://fonts.googleapis.com/css?family=Amaranth&display=swap" rel="stylesheet" />
         <link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet" />
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
         <meta name="slack-app-id" content="AMF6S0LJ2">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     </head>
-    <body>
+    <body style="background: url('{{ url_for('static', filename='curve.svg') }}"')">
         {% block content %}
         {% endblock %}
     </body>

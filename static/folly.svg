@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="93.3980108%" y2="91.1352328%" id="linearGradient-1">
+            <stop stop-color="#F9D077" offset="0%"></stop>
+            <stop stop-color="#F9CE75" offset="0%"></stop>
+            <stop stop-color="#E89533" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-107.000000, -117.000000)">
+            <g id="Group" transform="translate(107.000000, 117.000000)">
+                <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="512" height="512" rx="7"></rect>
+                <text id="f" font-family="KingthingsPetrock, Kingthings Petrock" font-size="350" font-style="condensed" font-weight="normal" letter-spacing="15.0000002" fill="#FFFFFF">
+                    <tspan x="181.507812" y="375">F</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

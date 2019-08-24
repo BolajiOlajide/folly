@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="folly__navigation">
+    <a href="/">
+        <img class="folly_logo" src="{{ url_for('static', filename='folly_main_logo.png') }}" />
+    </a>
+</nav>
+
+<section class="folly__content" style="background: url('{{ url_for('static', filename='curve.svg') }}"')">
+    <img class="folly_text_logo" src="{{ url_for('static', filename='folly_text_logo.png') }}" />
+    <span class="folly__description">Grab Reactors to a certain reaction in less <br />than a minute</span>
+    <a href="https://slack.com/oauth/authorize?client_id=80830268038.729230020614&scope=reactions:read,channels:history,groups:history,bot&redirect_uri=http://localhost:5000/status" class="folly_link">
+        Add to Slack
+    </a>
+</section>
+
+<section class="folly__footer">
+    <span>Copyright &#xa9;<span id="current_date"></span></span>
+    <span>&#8226;</span>
+    <a href="https://patreon.com/cooproton" target="_blank" rel="noopener noreferrer"> Support me via Patreon</a>
+</section>
+
+<script>
+    const dateContainer = document.getElementById('current_date');
+    dateContainer.innerHTML = new Date().getFullYear();
+</script>
+{% endblock %}
