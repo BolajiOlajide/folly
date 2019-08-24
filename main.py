@@ -28,7 +28,9 @@ if (environment == "production"):
 
 dictConfig(LOGGING_CONFIG)
 app = FlaskAPI(__name__, instance_relative_config=False)
-app.config["MONGO_URI"] = os.getenv("MONGODB_URI")
+MONGO_URI = os.getenv("MONGODB_URI")
+app.config["MONGO_URI"] = f"{MONGO_URI}?retryWrites=false"
+app.config["retryWrites"] = False
 mongo = PyMongo(app)
 
 SLACK_CLIENT_ID = os.getenv("SLACK_CLIENT_ID")
