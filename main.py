@@ -125,7 +125,7 @@ def status():
             error_message = "Error connecting to Slack!"
             return render_template("error.html", error_message=error_message)
 
-        team_id = auth_response['team_id'],
+        team_id = auth_response['team_id']
         team_name = auth_response['team_name']
         options = dict(
             user_token = auth_response['access_token'],
@@ -138,7 +138,6 @@ def status():
         existing_team_collection = mongo.db.teams.find(existing_team_query)
 
         if not existing_team_collection.count():
-            print("Team doesn't exist!!")
             mongo.db.teams.insert_one(options)
 
         return render_template("success.html", team_name=team_name)
