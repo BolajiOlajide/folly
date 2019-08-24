@@ -148,7 +148,9 @@ def status():
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    redirect_url = "https://folly.herokuapp.com" if (environment == "production") else "http://localhost:5000"
+    slack_url = f"https://slack.com/oauth/authorize?client_id=80830268038.729230020614&scope=reactions:read,channels:history,groups:history,bot&redirect_uri={redirect_url}/status"
+    return render_template("index.html", slack_url=slack_url)
 
 
 if __name__ == "__main__":
