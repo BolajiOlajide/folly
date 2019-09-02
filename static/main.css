@@ -67,6 +67,7 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0;
 }
 
 .folly_logo_container {
@@ -76,41 +77,42 @@ a {
 }
 
 .folly_text_logo {
-    margin: 2rem 0;
-    width: 80px;
+    margin: 0;
+    width: 120px;
     border-radius: 20%;
 }
 
 .folly_text {
-    margin-left: 20px;
-    font-size: 5rem;
+    margin-left: 50px;
+    font-size: 8rem;
     font-family: 'Amaranth';
     color: var(--primary-color);
 }
 
 .folly__header {
-    font-size: 3rem;
+    font-size: 4.5rem;
     text-align: center;
 }
 
 .folly__description {
     color: rgba(59,80,108,0.70);
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
     text-align: justify;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    padding: 0 5rem;
 }
 
 .folly_link {
     background: var(--secondary-color);
-    padding: 1rem 2rem;
+    padding: 2rem 2rem;
     border-radius: 7px;
     text-decoration: none;
     color: var(--light-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
-    width: 300px;
+    font-size: 40px;
+    width: 60%;
 }
 
 .folly__footer {
@@ -120,7 +122,7 @@ a {
     align-items: center;
     margin-bottom: 10px;
     bottom: 0;
-    font-size: 1.5rem;
+    font-size: 1.9rem;
 }
 
 .folly__footer span {
@@ -145,7 +147,8 @@ a {
 }
 
 .slack_logo {
-    margin-right: 10px;
+    width: 79px;
+    height: 40px;
 }
 
 .folly_body {
@@ -153,6 +156,11 @@ a {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+.folly__video_player {
+    width: 90%;
+    height: 640px;
 }
 
 @media (min-width: 1025px) {
@@ -167,6 +175,7 @@ a {
 
     .folly_main_description {
         align-items: flex-start;
+        padding: 0 4rem;
     }
 
     .folly__header {
@@ -176,10 +185,33 @@ a {
 
     .folly__description {
         font-size: 1rem;
+        margin-bottom: 3rem;
+        padding: 0;
     }
 
     .folly_link {
         font-size: 17px;
         width: 200px;
+        padding: 1rem;
+    }
+
+    .folly__video_player {
+        width: 700px;
+        height: 450px;
+    }
+
+    .slack_logo {
+        width: 50px;
+        height: 20px;
+    }
+
+    .folly_text {
+        margin-left: 20px;
+        font-size: 5rem;
+    }
+
+    .folly_text_logo {
+        margin: 2rem 0;
+        width: 80px;
     }
 }
