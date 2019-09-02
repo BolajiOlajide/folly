@@ -4,11 +4,12 @@ from logging.config import dictConfig
 
 import sentry_sdk
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, flash
 from flask_api import FlaskAPI
 from flask_pymongo import PyMongo
 from sentry_sdk.integrations.flask import FlaskIntegration
 from slackclient import SlackClient
+from flask_sendgrid import SendGrid
 
 from client import create_client
 from constants import HELP_REGEX, LOGGING_CONFIG, REACTION_REGEX
@@ -30,6 +31,8 @@ app = FlaskAPI(__name__, instance_relative_config=False)
 MONGO_URI = os.getenv("MONGODB_URI")
 app.config["MONGO_URI"] = f"{MONGO_URI}?retryWrites=false"
 app.config["retryWrites"] = False
+app.config['SENDGRID_API_KEY'] = os.getenv("SENDGRID_API_KEY")
+app.config['SENDGRID_DEFAULT_FROM'] = os.getenv("SENDGRID_DEFAULT_FROM", "")
 mongo = PyMongo(app)
 
 SLACK_CLIENT_ID = os.getenv("SLACK_CLIENT_ID")
@@ -180,6 +183,18 @@ def privacy_policy():
         environment=environment
     )
     return render_template("privacy.html", **context)
+
+
+@app.route('/support', methods=['GET', 'POST'])
+def support():
+    context = dict(
+        title="Support",
+        environment=environment
+    )
+    if request.method == 'POST':
+        options = dict(**request.data)
+        mongo.db.support.insert_one(options)
+    return render_template("support.html", **context)
 
 
 @app.route("/")

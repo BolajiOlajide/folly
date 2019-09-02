@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="folly_support_container">
+    <a class="folly_logo_container" href="/">
+        <img class="folly_text_logo" src="{{ url_for('static', filename='folly.svg') }}" />
+        <span class="folly_text">Folly</span>
+    </a>
+
+    <h1 class="folly_header">Support</h1>
+
+    <form action="/support" method="POST" class="folly_support_form">
+        <label for="name" class="folly_form_label">Name:</label>
+        <input name="name" required class="folly_input" />
+        <br />
+
+        <label for="name" class="folly_form_label">Email:</label>
+        <input name="email" required type="email" class="folly_input" />
+        <br />
+
+        <label for="content" class="folly_form_label">How can we help?</label>
+        <textarea name="content" class="folly_input" rows="10" style="resize: vertical"></textarea>
+        <br />
+
+        <input type="submit" value="Submit Support request" class="folly_form_submit"></input>
+    </form>
+</section>
+{% endblock content %}
