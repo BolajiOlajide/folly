@@ -1,24 +1,25 @@
-import os
 import functools
-import time
 import hmac
+import os
+import time
 
-from flask import request, make_response
-
+from flask import make_response, request
 
 SIGNING_SECRET = os.getenv("SIGNING_SECRET")
 
+
 def is_timestamp_invalid(timestamp):
     current_time = abs(time.time())
-    MAX_TIME = 60 * 5 # 5 minutes
+    MAX_TIME = 60 * 5  # 5 minutes
 
-    return ((current_time - int(timestamp)) > MAX_TIME)
+    return (current_time - int(timestamp)) > MAX_TIME
 
 
 def calculate_signature(base_string):
     options = [SIGNING_SECRET, base_string]
     generated_hash = hmac.compute_hash_sha256(*options).hexdigest()
     return f"v0={generated_hash}"
+
 
 def verify_request(f):
     @functools.wraps(f)

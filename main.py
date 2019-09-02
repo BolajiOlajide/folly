@@ -2,13 +2,13 @@ import os
 import re
 from logging.config import dictConfig
 
+import sentry_sdk
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, jsonify, render_template, request
 from flask_api import FlaskAPI
 from flask_pymongo import PyMongo
-from slackclient import SlackClient
-import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
+from slackclient import SlackClient
 
 from client import create_client
 from constants import HELP_REGEX, LOGGING_CONFIG, REACTION_REGEX
@@ -16,14 +16,13 @@ from decorators import verify_request, verify_request_depr
 from utils import (generate_user_response, get_message_permalink,
                    get_reaction_details, get_reactions, send_ephemeral_message)
 
-
 load_dotenv(find_dotenv())
 
 environment = os.getenv("ENV", "development")
 is_debug = environment == "development"
 SENTRY_DSN = os.getenv("SENTRY_DSN")
 
-if (environment == "production"):
+if environment == "production":
     sentry_sdk.init(dsn=SENTRY_DSN, integrations=[FlaskIntegration()])
 
 dictConfig(LOGGING_CONFIG)
@@ -72,8 +71,8 @@ def bot():
         team_query = {"team_id": team_id}
         team_details = mongo.db.teams.find_one(team_query)
 
-        bot_token = team_details.get('bot_token')
-        user_token = team_details.get('user_token')
+        bot_token = team_details.get("bot_token")
+        user_token = team_details.get("user_token")
         bot_client, user_client = create_client(bot_token, user_token)
 
         if not thread_ts:
@@ -83,7 +82,9 @@ def bot():
             return "", 200
 
         if re.search(HELP_REGEX, reaction_text):
-            send_ephemeral_message(help_message, thread_ts, channel, current_user, bot_client)
+            send_ephemeral_message(
+                help_message, thread_ts, channel, current_user, bot_client
+            )
             return "", 200
 
         reactions = re.findall(REACTION_REGEX, reaction_text)
@@ -105,7 +106,9 @@ def bot():
 
         permalink_response = get_message_permalink(thread_ts, channel, user_client)
         permalink = permalink_response.get("permalink")
-        response = generate_user_response(reaction_details, current_user, permalink, bot_client)
+        response = generate_user_response(
+            reaction_details, current_user, permalink, bot_client
+        )
 
         return "", 200
     except Exception as e:
@@ -125,23 +128,23 @@ def status():
             "oauth.access",
             client_id=SLACK_CLIENT_ID,
             client_secret=SLACK_CLIENT_SECRET,
-            code=code
+            code=code,
         )
 
         ok = auth_response.get("ok")
 
         if not ok:
-            print('\n\n', auth_response, '\n\n')
+            print("\n\n", auth_response, "\n\n")
             error_message = "Error connecting to Slack!"
             return render_template("error.html", error_message=error_message)
 
-        team_id = auth_response['team_id']
-        team_name = auth_response['team_name']
+        team_id = auth_response["team_id"]
+        team_name = auth_response["team_name"]
         options = dict(
-            user_token = auth_response['access_token'],
-            bot_token = auth_response['bot']['bot_access_token'],
+            user_token=auth_response["access_token"],
+            bot_token=auth_response["bot"]["bot_access_token"],
             team_id=team_id,
-            team_name=team_name
+            team_name=team_name,
         )
 
         existing_team_query = {"team_name": team_name, "team_id": team_id}
@@ -153,12 +156,16 @@ def status():
         return render_template("success.html", team_name=team_name)
     except Exception as e:
         app.logger.exception(e)
-        return render_template("error.html", )
+        return render_template("error.html")
 
 
 @app.route("/")
 def home():
-    redirect_url = "https://folly.herokuapp.com" if (environment == "production") else "http://localhost:5000"
+    redirect_url = (
+        "https://folly.herokuapp.com"
+        if (environment == "production")
+        else "http://localhost:5000"
+    )
     slack_url = f"https://slack.com/oauth/authorize?client_id=80830268038.729230020614&scope=reactions:read,channels:history,groups:history,bot&redirect_uri={redirect_url}/status"
     return render_template("index.html", slack_url=slack_url)
 
