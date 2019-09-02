@@ -136,7 +136,12 @@ def status():
         if not ok:
             print("\n\n", auth_response, "\n\n")
             error_message = "Error connecting to Slack!"
-            return render_template("error.html", error_message=error_message)
+            context = dict(
+                title="Error",
+                environment=environment,
+                error_message=error_message
+            )
+            return render_template("error.html", **context)
 
         team_id = auth_response["team_id"]
         team_name = auth_response["team_name"]
@@ -153,10 +158,28 @@ def status():
         if not existing_team_collection.count():
             mongo.db.teams.insert_one(options)
 
-        return render_template("success.html", team_name=team_name)
+        context = dict(
+            title="Success!",
+            environment=environment,
+            team_name=team_name
+        )
+        return render_template("success.html", **context)
     except Exception as e:
         app.logger.exception(e)
-        return render_template("error.html")
+        context = dict(
+            title="Error",
+            environment=environment
+        )
+        return render_template("error.html", **context)
+
+
+@app.route('/privacy')
+def privacy_policy():
+    context = dict(
+        title="Privacy Policy",
+        environment=environment
+    )
+    return render_template("privacy.html", **context)
 
 
 @app.route("/")
@@ -167,7 +190,12 @@ def home():
         else "http://localhost:5000"
     )
     slack_url = f"https://slack.com/oauth/authorize?client_id=80830268038.729230020614&scope=reactions:read,channels:history,groups:history,bot&redirect_uri={redirect_url}/status"
-    return render_template("index.html", slack_url=slack_url)
+    context = dict(
+        environment=environment,
+        slack_url=slack_url,
+        ga_id=os.getenv("GOOGLE_ANALYTICS_ID", "")
+    )
+    return render_template("index.html", **context)
 
 
 if __name__ == "__main__":
