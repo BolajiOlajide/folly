@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="folly__content">
+    <section class="folly_body">
+        <a href="/" class="folly_logo_container">
+            <img class="folly_text_logo" src="{{ url_for('static', filename='folly.svg') }}" />
+            <span class="folly_text">Folly</span>
+        </a>
+        <p class="folly_success_text">Folly successfully added to {{team_name}} 🎉🎉</p>
+        <a href="/" class="folly_link">Go Home!</a>
+    </section>
+
+    <img class="folly__success_img" src="{{ url_for('static', filename='success.gif') }}" />
+</section>
+{% endblock %}

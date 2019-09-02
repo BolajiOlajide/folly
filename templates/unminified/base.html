@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>folly</title>
+        <link href="{{ url_for('static', filename='main.min.css') }}" rel="stylesheet" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <meta name="slack-app-id" content="AMF6S0LJ2">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    </head>
+    <body style="background: url('{{ url_for('static', filename='curve.svg') }}"')">
+        {% block content %}
+        {% endblock %}
+        <section class="folly__footer">
+            <span>Copyright &#xa9;<span id="current_date"></span></span>
+            <span>&#8226;</span>
+            <a href="https://patreon.com/cooproton" target="_blank" rel="noopener noreferrer"> Support via Patreon</a>
+        </section>
+    </body>
+</html>
