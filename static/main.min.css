@@ -23,12 +23,16 @@
 
 body {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     background-repeat: no-repeat !important;
     background-position-x: right !important;
     background-position-y: top !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 a {
@@ -54,8 +58,8 @@ a {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    height: 100%;
     width: 100%;
+    flex: 1;
 }
 
 .folly_main_description {
@@ -160,8 +164,8 @@ a {
 }
 
 .folly_privacy_container {
-    margin: 1rem 0;
-    min-height: 90%;
+    margin: 3rem 0;
+    flex: 1;
 }
 
 .folly_privacy_content {
@@ -186,10 +190,11 @@ a {
 }
 
 .folly_support_container {
-    min-height: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
+    width: 100%;
 }
 
 .folly_support_form {
