@@ -16,7 +16,6 @@ python-dotenv = "*"
 flask-pymongo = "*"
 pymodm = "*"
 sentry-sdk = {extras = ["flask"],version = "==0.11.1"}
-flask-sendgrid = "*"
 
 [requires]
 python_version = "3.7"
