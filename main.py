@@ -10,7 +10,7 @@ from flask_pymongo import PyMongo
 from sentry_sdk.integrations.flask import FlaskIntegration
 from slackclient import SlackClient
 
-from client import create_client
+from client import create_client, create_support_client
 from constants import HELP_REGEX, LOGGING_CONFIG, REACTION_REGEX
 from decorators import verify_request, verify_request_depr
 from utils import (generate_user_response, get_message_permalink,
@@ -35,6 +35,9 @@ mongo = PyMongo(app)
 
 SLACK_CLIENT_ID = os.getenv("SLACK_CLIENT_ID")
 SLACK_CLIENT_SECRET = os.getenv("SLACK_CLIENT_SECRET")
+SUPPORT_BOT_TOKEN = os.getenv("SUPPORT_BOT_TOKEN")
+
+support_client = create_support_client(SUPPORT_BOT_TOKEN)
 
 help_message = """To use folly, simply mention @folly and the reaction you'd love to grab.
 
@@ -189,10 +192,31 @@ def support():
         title="Support",
         environment=environment
     )
+
     if request.method == 'POST':
-        options = dict(**request.data)
-        mongo.db.support.insert_one(options)
-        flash('Support request successfully sent.')
+        # import pdb; pdb.set_trace()
+        # options = dict(**request.data)
+        # mongo.db.support.insert_one(options)
+        name = request.data.get("name")
+        email = request.data.get("email")
+        content = request.data.get("content")
+
+        if name and email and content:
+            support_client.api_call(
+                "chat.postMessage",
+                channel='folly-support',
+                text=f"""Hello Support,
+
+You've got a new message from {email}.
+
+>>>
+*NAME*: {name}
+*CONTENT*: {content}
+    """
+            )
+            flash('Support request successfully sent.')
+        else:
+            flash('One of the fields were empty. Please try again')
     return render_template("support.html", **context)
 
 
