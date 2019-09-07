@@ -1,6 +1,8 @@
 import random
 import string
 
+from client import create_client
+
 
 def get_reactions(channel, message_ts, user_client):
     payload = dict(channel=channel, full=True, timestamp=message_ts)
@@ -63,3 +65,24 @@ There are {count} reactors with the :{reaction}: reaction:
 
     formatted_msg = msg.strip()
     return send_message(formatted_msg, current_user, bot_client)
+
+
+def handle_app_home_event(team_id, user_id):
+    from main import mongo
+
+    existing_team = mongo.db.teams.find_one({"team_id": team_id})
+
+    if not existing_team:
+        bot_token = existing_team.get("bot_token")
+        user_token = existing_team.get("user_token")
+        bot_client, _ = create_client(bot_token, user_token)
+        formatted_msg = f"""Hello <@{user_id}>,
+
+I am folly. I'm a simple bot whose main aim is to grab members of this workspace who react to any message shared in the workspace.
+
+To make use of `folly`, mention @folly followed by the reaction you want to grab reactors for and the bot sends you a DM.
+
+> @folly :100:
+"""
+        send_message(formatted_msg, user_id, bot_client)
+    return existing_team

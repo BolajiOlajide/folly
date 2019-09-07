@@ -1,10 +1,11 @@
 import os
 import re
 from logging.config import dictConfig
+from threading import Thread
 
 import sentry_sdk
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, jsonify, render_template, request, flash
+from flask import Flask, flash, jsonify, render_template, request
 from flask_api import FlaskAPI
 from flask_pymongo import PyMongo
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -14,7 +15,7 @@ from client import create_client, create_support_client
 from constants import HELP_REGEX, LOGGING_CONFIG, REACTION_REGEX
 from decorators import verify_request, verify_request_depr
 from utils import (generate_user_response, get_message_permalink,
-                   get_reaction_details, get_reactions, send_ephemeral_message)
+                   get_reaction_details, get_reactions, send_ephemeral_message, handle_app_home_event)
 
 load_dotenv(find_dotenv())
 
@@ -30,7 +31,7 @@ app = FlaskAPI(__name__, instance_relative_config=False)
 MONGO_URI = os.getenv("MONGODB_URI")
 app.config["MONGO_URI"] = f"{MONGO_URI}?retryWrites=false"
 app.config["retryWrites"] = False
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 mongo = PyMongo(app)
 
 SLACK_CLIENT_ID = os.getenv("SLACK_CLIENT_ID")
@@ -58,6 +59,16 @@ def bot():
 
         event = request.data.get("event")
         event_type = event.get("type")
+        team_id = request.data.get("team_id")
+
+        if event_type == "app_home_opened":
+            user_id = event.get("user")
+
+            if user_id and team_id:
+                args = (team_id, user_id)
+                x = Thread(target=handle_app_home_event, args=args)
+                x.start()
+            return "", 200
 
         if event_type != "app_mention":
             return "", 200
@@ -71,7 +82,6 @@ def bot():
         if edited:
             return "", 200
 
-        team_id = request.data.get("team_id")
         team_query = {"team_id": team_id}
         team_details = mongo.db.teams.find_one(team_query)
 
@@ -143,7 +153,8 @@ def status():
             context = dict(
                 title="Error",
                 environment=environment,
-                error_message=error_message
+                error_message=error_message,
+                ga_id=os.getenv("GOOGLE_ANALYTICS_ID", ""),
             )
             return render_template("error.html", **context)
 
@@ -165,35 +176,35 @@ def status():
         context = dict(
             title="Success!",
             environment=environment,
-            team_name=team_name
+            team_name=team_name,
+            ga_id=os.getenv("GOOGLE_ANALYTICS_ID", ""),
         )
         return render_template("success.html", **context)
     except Exception as e:
         app.logger.exception(e)
-        context = dict(
-            title="Error",
-            environment=environment
-        )
+        context = dict(title="Error", environment=environment)
         return render_template("error.html", **context)
 
 
-@app.route('/privacy')
+@app.route("/privacy")
 def privacy_policy():
     context = dict(
         title="Privacy Policy",
-        environment=environment
+        environment=environment,
+        ga_id=os.getenv("GOOGLE_ANALYTICS_ID", ""),
     )
     return render_template("privacy.html", **context)
 
 
-@app.route('/support', methods=['GET', 'POST'])
+@app.route("/support", methods=["GET", "POST"])
 def support():
     context = dict(
         title="Support",
-        environment=environment
+        environment=environment,
+        ga_id=os.getenv("GOOGLE_ANALYTICS_ID", ""),
     )
 
-    if request.method == 'POST':
+    if request.method == "POST":
         name = request.data.get("name")
         email = request.data.get("email")
         content = request.data.get("content")
@@ -201,7 +212,7 @@ def support():
         if name and email and content:
             support_client.api_call(
                 "chat.postMessage",
-                channel='folly-support',
+                channel="folly-support",
                 text=f"""Hello Support,
 
 You've got a new message from {email}.
@@ -209,11 +220,11 @@ You've got a new message from {email}.
 >>>
 *NAME*: {name}
 *CONTENT*: {content}
-    """
+    """,
             )
-            flash('Support request successfully sent.')
+            flash("Support request successfully sent.")
         else:
-            flash('One of the fields were empty. Please try again')
+            flash("One of the fields were empty. Please try again")
     return render_template("support.html", **context)
 
 
@@ -228,11 +239,14 @@ def home():
     context = dict(
         environment=environment,
         slack_url=slack_url,
-        ga_id=os.getenv("GOOGLE_ANALYTICS_ID", "")
+        ga_id=os.getenv("GOOGLE_ANALYTICS_ID", ""),
     )
     return render_template("index.html", **context)
 
 
 if __name__ == "__main__":
     app.logger.info("Starting Folly!")
+    gunicorn_logger = logging.getLogger("gunicorn.error")
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
     app.run(debug=is_debug)
