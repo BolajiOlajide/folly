@@ -194,9 +194,6 @@ def support():
     )
 
     if request.method == 'POST':
-        # import pdb; pdb.set_trace()
-        # options = dict(**request.data)
-        # mongo.db.support.insert_one(options)
         name = request.data.get("name")
         email = request.data.get("email")
         content = request.data.get("content")
