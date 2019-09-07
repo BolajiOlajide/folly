@@ -15,7 +15,8 @@ from client import create_client, create_support_client
 from constants import HELP_REGEX, LOGGING_CONFIG, REACTION_REGEX
 from decorators import verify_request, verify_request_depr
 from utils import (generate_user_response, get_message_permalink,
-                   get_reaction_details, get_reactions, send_ephemeral_message, handle_app_home_event)
+                   get_reaction_details, get_reactions, handle_app_home_event,
+                   send_ephemeral_message)
 
 load_dotenv(find_dotenv())
 
