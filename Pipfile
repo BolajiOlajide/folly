@@ -15,7 +15,7 @@ flask-api = "*"
 python-dotenv = "*"
 flask-pymongo = "*"
 pymodm = "*"
-sentry-sdk = {extras = ["flask"],version = "==0.11.1"}
+sentry-sdk = {extras = ["flask"],version = "==1.14.0"}
 
 [requires]
 python_version = "3.7"
